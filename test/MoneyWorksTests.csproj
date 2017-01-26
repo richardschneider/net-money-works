@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MoneyWorks</RootNamespace>
-    <AssemblyName>MoneyWorks.Test</AssemblyName>
+    <AssemblyName>MoneyWorks.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -55,7 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MoneyWorks.csproj">
+    <ProjectReference Include="..\src\MoneyWorks.csproj">
       <Project>{79df839c-d47b-422c-8170-970b3251545c}</Project>
       <Name>MoneyWorks</Name>
     </ProjectReference>
