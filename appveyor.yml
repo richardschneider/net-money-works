@@ -16,7 +16,7 @@ cache:
 
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: QCqS/5obJNQ41fXbS+W5nn7slvaJL2bFP6e0LcK6Rga5R9cL63oPuK4zI4MXNjCI+04u63TQfrifC
+    secure: QCqS/5obJNQ41fXbS+W5nn7slvaJL2bFP6e0LcK6Rga5R9cL63oPuK4zI4MXNjCI
   git_token:
     secure: NeX5NCOUXsCLc1UjTJjqB9F02FZ8Wq0VsxqTXC8kBdyK6zjxjebrf/9Da2sY1Kql
   snk_secret:
