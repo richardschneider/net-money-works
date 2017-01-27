@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace MoneyWorks
@@ -42,6 +43,26 @@ namespace MoneyWorks
         ///   An <see href="https://en.wikipedia.org/wiki/ISO_4217">ISO 4217</see> currency code.  For example: "CNY", "NZD" or "JPY".
         /// </value>
         public string Currency { get; }
+
+        /// <summary>
+        ///   The number of fractional digits used by the currency.
+        /// </summary>
+        /// <remarks>
+        ///   Its not possible to get this information from .Net.  The
+        ///   http://cldr.unicode.org/ will have to be used.
+        ///   Defaults to 2, except for "JPY" which is 0.
+        /// </remarks>
+        public int CurrencyPrecision
+        {
+            get
+            {
+                switch (Currency)
+                {
+                    case "JPY": return 0;
+                    default: return 2;
+                }
+            }
+        }
 
         #region Equality
         /// <inheritdoc />
@@ -153,6 +174,20 @@ namespace MoneyWorks
         public static Money operator *(Money a, decimal b)
         {
             return new Money(a.Amount * b, a.Currency);
+        }
+
+        /// <summary>
+        ///   Rounds the <see cref="Amount"/> to the precision of the currency.
+        /// </summary>
+        /// <returns>
+        ///   A new Money with the rounded Amount.
+        /// </returns>
+        /// <remarks>
+        ///   Banker's rounding is used.  Equivalent to <c>Round(CurrencyPrecision)</c>.
+        /// </remarks>
+        public Money Round()
+        {
+            return Round(CurrencyPrecision);
         }
 
         /// <summary>

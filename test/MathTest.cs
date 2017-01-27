@@ -38,6 +38,16 @@ namespace MoneyWorks
         }
 
         [TestMethod]
+        public void Round_Currency_Precision()
+        {
+            var nzd = new Money(123.577m, "NZD");
+            var jpy = new Money(123.577m, "JPY");
+
+            Assert.AreEqual("123.58 NZD", nzd.Round().ToString());
+            Assert.AreEqual("124 JPY", jpy.Round().ToString());
+        }
+
+        [TestMethod]
         public void Round_Specified_Precision()
         {
             var a = new Money(123.57719m, "NZD");
@@ -72,5 +82,13 @@ namespace MoneyWorks
             Assert.AreEqual("5 JPY", new Money(4.8m, "JPY").Round(0).ToString());
             Assert.AreEqual("5 JPY", new Money(4.9m, "JPY").Round(0).ToString());
         }
+
+        [TestMethod]
+        public void CurrencyPrecision()
+        {
+            Assert.AreEqual(2, new Money(0, "USD").CurrencyPrecision);
+            Assert.AreEqual(0, new Money(0, "JPY").CurrencyPrecision);
+        }
+
     }
 }
