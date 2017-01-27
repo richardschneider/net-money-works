@@ -82,6 +82,8 @@ namespace MoneyWorks
             Assert.AreEqual("33.34 USD", shares[0].ToString());
             Assert.AreEqual("33.33 USD", shares[1].ToString());
             Assert.AreEqual("33.33 USD", shares[2].ToString());
+
+            ExceptionAssert.Throws<ArgumentException>(() => new Money(100, "USD").Allocate(new int[0]));
         }
 
         [TestMethod]
