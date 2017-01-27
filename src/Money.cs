@@ -7,7 +7,7 @@ namespace MoneyWorks
     /// <summary>
     ///   Represents a monetary value and currency code.
     /// </summary>
-    public class Money : IEquatable<Money>
+    public class Money : IEquatable<Money>, IComparable<Money>
     {
         static Regex iso4217 = new Regex(@"[A-Z]{3}", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
@@ -152,6 +152,85 @@ namespace MoneyWorks
         public static Money operator *(Money a, decimal b)
         {
             return new Money(a.Amount * b, a.Currency);
+        }
+        #endregion
+
+        #region Comparison
+        /// <summary>
+        ///   Compares this instance to a second <see cref="Money"/> and returns 
+        ///   an integer that indicates whether the value of this instance is 
+        ///   less than, equal to, or greater than the value of the specified object.
+        /// </summary>
+        /// <param name="that">The object to compare</param>
+        /// <returns>
+        ///   A signed integer value that indicates the relationship of this 
+        ///   instance to <paramref name="that"/>.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        ///   When the <see cref="Money.Currency"/> are not the same.
+        /// </exception>
+        public int CompareTo(Money that)
+        {
+            if (this.Currency != that.Currency)
+                throw new InvalidOperationException("Currencies must be the same.");
+
+            return this.Amount.CompareTo(that.Amount);
+        }
+
+        /// <summary>
+        ///   Determines if the <see cref="Money"/> is less than some other <see cref="Money"/>.
+        /// </summary>
+        /// <param name="a">The first value to compare.</param>
+        /// <param name="b">The second value to compare.</param>
+        /// <returns>
+        ///   <b>true</b> if <paramref name="a"/> is less than <paramref name="b"/>;
+        ///   otherwise, <b>false</b>.
+        /// </returns>
+        public static bool operator <(Money a, Money b)
+        {
+            return a.CompareTo(b) < 0;
+        }
+
+        /// <summary>
+        ///   Determines if the <see cref="Money"/> is greater than some other <see cref="Money"/>.
+        /// </summary>
+        /// <param name="a">The first value to compare.</param>
+        /// <param name="b">The second value to compare.</param>
+        /// <returns>
+        ///   <b>true</b> if <paramref name="a"/> is greater than <paramref name="b"/>;
+        ///   otherwise, <b>false</b>.
+        /// </returns>
+        public static bool operator >(Money a, Money b)
+        {
+            return a.CompareTo(b) > 0;
+        }
+
+        /// <summary>
+        ///   Determines if the <see cref="Money"/> is less than or equal to some other <see cref="Money"/>.
+        /// </summary>
+        /// <param name="a">The first value to compare.</param>
+        /// <param name="b">The second value to compare.</param>
+        /// <returns>
+        ///   <b>true</b> if <paramref name="a"/> is less than or equal to <paramref name="b"/>;
+        ///   otherwise, <b>false</b>.
+        /// </returns>
+        public static bool operator <=(Money a, Money b)
+        {
+            return a.CompareTo(b) <= 0;
+        }
+
+        /// <summary>
+        ///   Determines if the <see cref="Money"/> is greater than or equal to some other <see cref="Money"/>.
+        /// </summary>
+        /// <param name="a">The first value to compare.</param>
+        /// <param name="b">The second value to compare.</param>
+        /// <returns>
+        ///   <b>true</b> if <paramref name="a"/> is greater than or equal to <paramref name="b"/>;
+        ///   otherwise, <b>false</b>.
+        /// </returns>
+        public static bool operator >=(Money a, Money b)
+        {
+            return a.CompareTo(b) >= 0;
         }
         #endregion
     }
