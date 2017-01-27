@@ -13,3 +13,9 @@ Work with money in multiple currencies and different cultures.
 - [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency codes
 - Uses [Martin Folwer's](http://martinfowler.com/) design pattern for [Money](http://martinfowler.com/eaaCatalog/money.html)
 - Allocation of funds without loosing pennies (smallest denomination)
+
+## Getting started
+
+Published releases of Money Works are available on [NuGet](https://www.nuget.org/packages/MoneyWorks/).  To install, run the following command in the [Package Manager Console](https://docs.nuget.org/docs/start-here/using-the-package-manager-console).
+
+    PM> Install-Package MoneyWorks
