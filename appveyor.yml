@@ -50,8 +50,8 @@ after_build:
 #  - tools\docfx\docfx doc\docfx.json
 #  - if defined git_token gh-pages -d doc\_site -m "new docs %GitVersion_FullSemVer%"
 # Build the nuget package
-#  - nuget pack src\IpfsApi.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
-#  - appveyor PushArtifact "Ipfs.Api.%GitVersion_NuGetVersion%.nupkg"
+  - nuget pack src\MoneyWorks.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+  - appveyor PushArtifact "MoneyWorks.%GitVersion_NuGetVersion%.nupkg"
 
 after_test: 
 # Generate coverage report
