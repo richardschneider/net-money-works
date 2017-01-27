@@ -9,7 +9,8 @@ namespace MoneyWorks
     /// </summary>
     public class Money : IEquatable<Money>, IComparable<Money>
     {
-        static Regex iso4217 = new Regex(@"[A-Z]{3}", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        static readonly Regex iso4217 = new Regex(@"[A-Z]{3}", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        const MidpointRounding roundingMode = MidpointRounding.ToEven;
 
         /// <summary>
         ///   Creates a new instance of the <see cref="Money"/> class
@@ -153,6 +154,25 @@ namespace MoneyWorks
         {
             return new Money(a.Amount * b, a.Currency);
         }
+
+        /// <summary>
+        ///   Rounds the <see cref="Amount"/> to the specified number of fractional digits.
+        /// </summary>
+        /// <param name="precision">
+        ///   The number of decimal places in the returned Amount.
+        /// </param>
+        /// <returns>
+        ///   A new Money with the rounded Amount.
+        /// </returns>
+        /// <remarks>
+        ///   Banker's rounding is used.
+        /// </remarks>
+        public Money Round(int precision)
+        {
+            var amount = Math.Round(this.Amount, precision, roundingMode);
+            return new Money(amount, this.Currency);
+        }
+
         #endregion
 
         #region Comparison
