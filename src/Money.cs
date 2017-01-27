@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -208,6 +209,59 @@ namespace MoneyWorks
             return new Money(amount, this.Currency);
         }
 
+
+        /// <summary>
+        ///   Distributes the money based on the ratios without loosing any pennies.
+        /// </summary>
+        /// <param name="ratios">
+        ///   How to distribute the money. <c>new[] {1,1}</c> divides the money evenly between 2 parties.
+        ///   <c>new[] {70, 20, 10}</c> - 1st gets 70%, 2nd get 20% and 3rd gets 10%. 
+        /// </param>
+        /// <returns>
+        ///   The distributed money.
+        /// </returns>
+        /// <remarks>
+        ///   Equivalent to <c>Allocate(<paramref name="ratios"/>, CurrencyPrecision)</c>.
+        /// </remarks>
+        public Money[] Allocate(int[] ratios)
+        {
+            return Allocate(ratios, CurrencyPrecision);
+        }
+
+        /// <summary>
+        ///   Distributes the money based on the ratios without loosing any pennies.
+        /// </summary>
+        /// <param name="ratios">
+        ///   How to distribute the money. <c>new[] {1,1}</c> divides the money evenly between 2 parties.
+        ///   <c>new[] {70, 20, 10}</c> - 1st gets 70%, 2nd get 20% and 3rd gets 10%. 
+        /// </param>
+        /// <param name="precision">
+        ///   The number of decimal places in the returned monies.
+        /// </param>
+        /// <returns>
+        ///   The distributed money.
+        /// </returns>
+        public Money[] Allocate(int[] ratios, int precision)
+        {
+            if (ratios.Length < 1)
+                throw new ArgumentException("Must not be empty", "ratios");
+
+            var total = (decimal)ratios.Sum();
+            var amount = Round();
+            var remainder = amount;
+            var shares = ratios
+                .Select(ratio =>
+                {
+                    var share = (amount * (ratio / total)).Round(precision);
+                    remainder = remainder - share;
+                    return share;
+                })
+                .ToArray();
+            if (remainder.Amount != 0)
+                shares[0] = (shares[0] + remainder).Round(precision);
+
+            return shares;
+        }
         #endregion
 
         #region Comparison

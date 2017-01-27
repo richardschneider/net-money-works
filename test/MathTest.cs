@@ -58,6 +58,33 @@ namespace MoneyWorks
         }
 
         [TestMethod]
+        public void Allocate()
+        {
+            var shares = new Money(10, "JPY").Allocate(new[] { 1, 1, 1 });
+            Assert.AreEqual(3, shares.Length);
+            Assert.AreEqual("4 JPY", shares[0].ToString());
+            Assert.AreEqual("3 JPY", shares[1].ToString());
+            Assert.AreEqual("3 JPY", shares[2].ToString());
+
+            shares = new Money(0.10m, "USD").Allocate(new[] { 70, 30 });
+            Assert.AreEqual(2, shares.Length);
+            Assert.AreEqual("0.07 USD", shares[0].ToString());
+            Assert.AreEqual("0.03 USD", shares[1].ToString());
+
+            shares = new Money(0.01m, "USD").Allocate(new[] { 70, 20, 10 });
+            Assert.AreEqual(3, shares.Length);
+            Assert.AreEqual("0.01 USD", shares[0].ToString());
+            Assert.AreEqual("0.00 USD", shares[1].ToString());
+            Assert.AreEqual("0.00 USD", shares[2].ToString());
+
+            shares = new Money(100, "USD").Allocate(new[] { 1, 1, 1 });
+            Assert.AreEqual(3, shares.Length);
+            Assert.AreEqual("33.34 USD", shares[0].ToString());
+            Assert.AreEqual("33.33 USD", shares[1].ToString());
+            Assert.AreEqual("33.33 USD", shares[2].ToString());
+        }
+
+        [TestMethod]
         public void Round_Bankers()
         {
             Assert.AreEqual("3 JPY", new Money(3.0m, "JPY").Round(0).ToString());
