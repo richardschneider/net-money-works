@@ -117,6 +117,8 @@ namespace MoneyWorks
         {
             Assert.AreEqual(2, new Money(0, "USD").CurrencyPrecision);
             Assert.AreEqual(0, new Money(0, "JPY").CurrencyPrecision);
+            Assert.AreEqual(3, new Money(0, "BHD").CurrencyPrecision);
+            Assert.AreEqual(2, new Money(0, "XXA").CurrencyPrecision); // unknown
         }
 
     }

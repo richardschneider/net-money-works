@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Makaretu.Globalization;
 
 namespace MoneyWorks
 {
@@ -48,20 +49,16 @@ namespace MoneyWorks
         /// <summary>
         ///   The number of fractional digits used by the currency.
         /// </summary>
-        /// <remarks>
-        ///   Its not possible to get this information from .Net.  The
-        ///   http://cldr.unicode.org/ will have to be used.
-        ///   Defaults to 2, except for "JPY" which is 0.
-        /// </remarks>
         public int CurrencyPrecision
         {
             get
             {
-                switch (Currency)
-                {
-                    case "JPY": return 0;
-                    default: return 2;
-                }
+                var info = Cldr.Instance
+                    .GetDocuments("common/supplemental/supplementalData.xml")
+                    .FirstElementOrDefault(
+                        $"supplementalData/currencyData/fractions/info[@iso4217='{Currency}']",
+                        docs => docs.FirstElement("supplementalData/currencyData/fractions/info[@iso4217='DEFAULT']"));
+                return Int32.Parse(info.Attribute("digits").Value, CultureInfo.InvariantCulture);
             }
         }
 

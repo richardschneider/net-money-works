@@ -20,6 +20,9 @@
 		locale culture 
 		math accounting
 	  </tags>
+    <dependencies>
+      <dependency id="Makaretu.Globalization" version="0.1.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="bin\release\MoneyWorks.dll" target="lib\net452\" />
