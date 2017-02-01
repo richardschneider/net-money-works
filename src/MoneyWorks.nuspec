@@ -21,7 +21,7 @@
 		math accounting
 	  </tags>
     <dependencies>
-      <dependency id="Makaretu.Globalization" version="0.1.0" />
+      <dependency id="Makaretu.Globalization" version="0.2.0" />
     </dependencies>
   </metadata>
   <files>
