@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using Makaretu.Globalization;
 
@@ -10,10 +11,24 @@ namespace MoneyWorks
     /// <summary>
     ///   Represents a monetary value and currency code.
     /// </summary>
+    [DataContract]
     public class Money : IEquatable<Money>, IComparable<Money>
     {
         static readonly Regex iso4217 = new Regex(@"[A-Z]{3}", RegexOptions.Compiled | RegexOptions.CultureInvariant);
         const MidpointRounding roundingMode = MidpointRounding.ToEven;
+
+        [DataMember(Order = 0)]
+        string currency;
+
+        [DataMember(Order = 1)]
+        decimal amount;
+
+        /// <summary>
+        ///   A private constructor for serialisation.
+        /// </summary>
+        private Money()
+        {
+        }
 
         /// <summary>
         ///   Creates a new instance of the <see cref="Money"/> class
@@ -29,14 +44,14 @@ namespace MoneyWorks
             if (currency.Length != 3 || !iso4217.IsMatch(currency))
                 throw new FormatException($"'{currency}' is not a valid ISO 4217 currency code.");
 
-            Amount = amount;
-            Currency = currency;
+            this.amount = amount;
+            this.currency = currency;
         }
 
         /// <summary>
         ///   The amount of money.
         /// </summary>
-        public decimal Amount { get; }
+        public decimal Amount { get { return amount; } }
 
         /// <summary>
         ///   The currency of the money.
@@ -44,7 +59,7 @@ namespace MoneyWorks
         /// <value>
         ///   An <see href="https://en.wikipedia.org/wiki/ISO_4217">ISO 4217</see> currency code.  For example: "CNY", "NZD" or "JPY".
         /// </value>
-        public string Currency { get; }
+        public string Currency { get { return currency; } }
 
         /// <summary>
         ///   The number of fractional digits used by the currency.
