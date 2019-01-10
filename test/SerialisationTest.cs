@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 
 namespace MoneyWorks
 {
@@ -28,6 +29,19 @@ namespace MoneyWorks
 
             StringAssert.Contains(sb.ToString(), "<currency>NZD</currency><amount>-0.20</amount>");
         }
+
+        [TestMethod]
+        public void Json()
+        {
+            var a0 = new Money(-0.20m, "NZD");
+            var json = JsonConvert.SerializeObject(a0);
+
+            var a1 = JsonConvert.DeserializeObject<Money>(json);
+            Assert.AreEqual(a0, a1);
+
+            Assert.AreEqual("{\"currency\":\"NZD\",\"amount\":-0.20}", json);
+        }
+
 
     }
 }
